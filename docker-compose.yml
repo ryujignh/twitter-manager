@@ -9,10 +9,8 @@ services:
       - .:/app
     ports:
       - "3000:3000"
-    environment:
-      TWITTER_API_KEY: ${TWITTER_API_KEY}
-      TWITTER_API_SECRET: ${TWITTER_API_SECRET}
-      RAILS_ENV: development
+    env_file:
+      - .env
     tty: true
   db:
     image: postgres
