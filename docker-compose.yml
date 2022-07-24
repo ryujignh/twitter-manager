@@ -11,6 +11,7 @@ services:
       - "3000:3000"
     env_file:
       - .env
+    stdin_open: true
     tty: true
   db:
     image: postgres
