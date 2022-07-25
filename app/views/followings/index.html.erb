@@ -4,15 +4,18 @@
       <% if @error %>
         <%= @error %>
       <% else %>
+        <h1>Current Followings: <%= @followings.size %></h1>
         <ul class="list-group">
           <%= form_with url: destroy_multiple_followings_url, method: :delete, class: "form-control table" do |form| %>
             <% @followings.each do |following| %>
               <li class="list-group-item">
                 <%= form.check_box(:ids, { multiple: true }, following[:id], nil) %>
-                id:<%= following[:id] %> name:<%= following[:name] %> username:<%= following[:username] %>
+                <%= link_to(following[:name], "https://twitter.com/#{following[:username]}", target: "_blank") %>
               </li>
             <% end %>
-            <%= form.submit %>
+<!--            <div class="">-->
+              <%= form.submit 'Unfollow' %>
+<!--            </div>-->
           <% end %>
         </ul>
       <% end %>

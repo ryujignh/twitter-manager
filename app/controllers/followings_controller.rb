@@ -10,11 +10,7 @@ class FollowingsController < ApplicationController
       # Initializing via options
 
       begin
-        if params[:pagination_token].present?
-          response = @client.get("https://api.twitter.com/2/users/#{current_user.uid}/following", pagination_token: params[:pagination_token])
-        else
-          response = @client.get("https://api.twitter.com/2/users/#{current_user.uid}/following")
-        end
+        response = get_followings(params[:pagination_token])
         @previous_token = response[:meta][:previous_token]
         @next_token = response[:meta][:next_token]
         @followings = response[:data]
@@ -24,17 +20,30 @@ class FollowingsController < ApplicationController
     end
   end
 
+  def get_followings(pagination_token)
+    Rails.cache.fetch("followings#{pagination_token}", expires_in: 1.hour) do
+      if pagination_token.present?
+        puts "***************************I'm calling API***************************"
+        @client.get("https://api.twitter.com/2/users/#{current_user.uid}/following", pagination_token: pagination_token)
+      else
+        puts "***************************I'm calling API***************************"
+        @client.get("https://api.twitter.com/2/users/#{current_user.uid}/following")
+      end
+    end
+  end
+
   def destroy_multiple
     ids = params[:ids]
     begin
       ids.each do |id|
-        response = @client.delete("https://api.twitter.com/2/users/#{current_user.uid}/following/#{id.to_i}")
+        @client.delete("https://api.twitter.com/2/users/#{current_user.uid}/following/#{id.to_i}")
       end
     rescue => e
       @error = e
     end
 
     if @error.nil?
+      Rails.cache.delete("followings")
       redirect_to followings_path
       flash[:notice] = "Unfollowed Successfully"
     else
