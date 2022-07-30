@@ -1,14 +1,20 @@
 <div class="container">
   <div class="row">
     <div class="col">
-      <pre><%= @user.inspect if @user %></pre>
-      <pre><%= session[:token] %></pre>
-      <% if @user %>
-        <%= button_to "Logout", logout_path, method: :get %>
-        <%= link_to("Followings", followings_path) %>
-      <% else %>
-        <%= button_to "Login via Twitter", "/auth/twitter2", method: :post, data: { turbo: false } %>
-      <% end %>
+      <div class="d-flex justify-content-center align-content-end flex-wrap mt-5">
+        <div>
+          <% if @user %>
+            <div class="mb-5">
+              <%= link_to("Followings", followings_path) %>
+            </div>
+            <div class="mb-5">
+              <%= link_to "Logout", logout_path, method: :get %>
+            </div>
+          <% else %>
+            <%= button_to "Login via Twitter", "/auth/twitter2", method: :post, data: { turbo: false } %>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 
