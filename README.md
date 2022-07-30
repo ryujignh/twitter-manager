@@ -1,24 +1,16 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Twitter Manager allows you to unfollow your followings easily.
 
-Things you may want to cover:
+## Installation
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+1. build docker image `docker compose build`
+2. run docker image `docker compose up`
+3. Create .env file in root directory and add the following variables:
+   - TWITTER_CLIENT_ID = "your_client_id"
+   - TWITTER_CLIENT_SECRET = "your_client_secret"
+4. open http://localhost:3000/
+5. Login with your twitter account
+6. Click on "Followings"
+7. Select following you want to unfollow
+8. Click on "Unfollow"
